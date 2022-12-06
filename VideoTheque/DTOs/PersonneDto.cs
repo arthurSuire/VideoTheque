@@ -1,4 +1,6 @@
-﻿namespace VideoTheque.DTOs
+﻿using System.Globalization;
+
+namespace VideoTheque.DTOs
 {
     public class PersonneDto
     {
@@ -7,5 +9,6 @@
         public string LastName { get; set; }
         public string Nationality { get; set; }
         public DateTime BirthDay { get; set; }
+        public string FullName => $"{LastName} {FirstName}";
     }
 }
