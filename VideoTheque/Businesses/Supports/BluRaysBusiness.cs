@@ -1,6 +1,6 @@
 namespace VideoTheque.Businesses.Supports
 {
-    public interface ISupportsBusiness
+    public class BluRaysBusiness: IBluRaysBusiness
     {
         
     }
