@@ -26,7 +26,7 @@ namespace VideoTheque.Controllers
         public async Task<AgeRatingViewModel> GetAgeRating([FromRoute] int id) => _ageRatingBusiness.GetAgeRating(id).Adapt<AgeRatingViewModel>();
 
         [HttpPost]
-        public async Task<IResult> InsentAgeRating([FromBody] AgeRatingViewModel ageRatingVM)
+        public async Task<IResult> InsertAgeRating([FromBody] AgeRatingViewModel ageRatingVM)
         {
             var created = _ageRatingBusiness.InsertAgeRating(ageRatingVM.Adapt<AgeRatingDto>());
             return Results.Created($"/ageRating/{created.Id}", created);
