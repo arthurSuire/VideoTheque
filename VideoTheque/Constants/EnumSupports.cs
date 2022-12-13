@@ -4,6 +4,7 @@ namespace VideoTheque.Constants
     {
       BluRay = 1, 
       CdRom = 2,
-      Streaming = 3
+      Streaming = 3,
+      Vhs = 4
     }
 }
