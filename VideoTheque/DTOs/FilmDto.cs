@@ -1,28 +1,36 @@
+using Microsoft.OpenApi.Extensions;
+using VideoTheque.Constants;
+
 namespace VideoTheque.DTOs
 {
     public class FilmDto
     {
         public int Id { get; set; }
-        public int IdDirector { get; set; }
-        public int IdScenarist { get; set; }
-        public long Duration { get; set; }
-        public int Support { get; set; }
-        public int IdAgeRating { get; set; }
-        public int IdGenre { get; set; }
+        public PersonneDto Director { get; set; }
+        
+        public PersonneDto Scenarist { get; set; }
+        public int Duration { get; set; }
+        public string Support { get; set; }
+        public AgeRatingDto AgeRating { get; set; }
+        public GenreDto Genre { get; set; }
         public string Title { get; set; }
-        public int IdFirstActor { get; set; }
+        public PersonneDto FirstActor { get; set; }
+        
+        public bool IsAvailable { get; set; }
+        
+        public int? IdOwner { get; set; }
 
         public FilmDto(BluRayDto bluRayDto)
         {
             this.Id = bluRayDto.Id;
-            this.IdDirector = bluRayDto.IdDirector;
-            this.IdScenarist = bluRayDto.IdScenarist;
+            this.Director = new PersonneDto { Id = bluRayDto.IdDirector };
+            this.Scenarist = new PersonneDto { Id = bluRayDto.IdScenarist };
             this.Duration = bluRayDto.Duration;
-            this.Support = bluRayDto.Id;
-            this.IdAgeRating = bluRayDto.IdAgeRating;
-            this.IdGenre = bluRayDto.IdGenre;
+            this.Support = EnumSupports.BluRay.GetDisplayName();
+            this.AgeRating = new AgeRatingDto { Id = bluRayDto.IdAgeRating };
+            this.Genre = new GenreDto { Id = bluRayDto.IdGenre };
             this.Title = bluRayDto.Title;
-            this.IdFirstActor = bluRayDto.IdFirstActor;
+            this.FirstActor = new PersonneDto { Id = bluRayDto.IdFirstActor };
         }
     }
 }

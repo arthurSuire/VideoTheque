@@ -8,7 +8,7 @@ namespace VideoTheque.Businesses.Films
 
         FilmDto GetFilm(int id);
 
-        FilmDto insertFilm(FilmDto filmDto);
+        FilmDto InsertFilm(FilmDto filmDto);
 
         void UpdateFilm(int id, FilmDto filmDto);
 
