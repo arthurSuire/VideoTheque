@@ -23,6 +23,7 @@ namespace VideoTheque.Businesses.Films
         {
             
             var blurays = await _bluRayDao.GetBluRays();
+            System.Console.WriteLine(blurays.Count);
             var films = new List<FilmDto>();
 
             foreach(var elts in blurays)
@@ -33,7 +34,7 @@ namespace VideoTheque.Businesses.Films
                 film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
                 film.Scenarist = _personnesRepository.GetPersonne(film.Scenarist.Id).Result;
                 film.AgeRating = _ageRatingRepository.GetAgeRating(film.AgeRating.Id).Result;
-
+                films.Add(film);
             }
             return films;
         }
