@@ -1,6 +1,7 @@
 using VideoTheque.DTOs;
 using VideoTheque.Repositories.AgeRating;
 using VideoTheque.Repositories.Films;
+using VideoTheque.Repositories.Genres;
 using VideoTheque.Repositories.Personnes;
 
 namespace VideoTheque.Businesses.Films
@@ -10,12 +11,16 @@ namespace VideoTheque.Businesses.Films
         private readonly IBluRaysRepository _bluRayDao;
         private readonly IPersonnesRepository _personnesRepository;
         private readonly IAgeRatingRepository _ageRatingRepository;
+        private readonly IGenresRepository _genresRepository;
         
-        public FilmsBusiness(IBluRaysRepository bluRayRepository, IPersonnesRepository personnesRepository, IAgeRatingRepository ageRatingRepository)
+        public FilmsBusiness(IBluRaysRepository bluRayRepository, IPersonnesRepository personnesRepository,
+            IAgeRatingRepository ageRatingRepository, IGenresRepository genresRepository)
         {
             _bluRayDao = bluRayRepository;
             _personnesRepository = personnesRepository;
             _ageRatingRepository = ageRatingRepository;
+            _genresRepository = genresRepository;
+
 
         }
         
@@ -34,6 +39,7 @@ namespace VideoTheque.Businesses.Films
                 film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
                 film.Scenarist = _personnesRepository.GetPersonne(film.Scenarist.Id).Result;
                 film.AgeRating = _ageRatingRepository.GetAgeRating(film.AgeRating.Id).Result;
+                film.Genre = _genresRepository.GetGenre(film.Genre.Id).Result;
                 films.Add(film);
             }
             return films;
