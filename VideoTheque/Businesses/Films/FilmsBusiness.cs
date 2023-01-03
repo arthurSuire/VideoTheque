@@ -1,3 +1,5 @@
+using Mapster;
+using VideoTheque.Core;
 using VideoTheque.DTOs;
 using VideoTheque.Repositories.AgeRating;
 using VideoTheque.Repositories.Films;
@@ -57,7 +59,12 @@ namespace VideoTheque.Businesses.Films
 
         public FilmDto InsertFilm(FilmDto filmDto)
         {
-            throw new NotImplementedException();
+            var bluray = filmDto.Adapt<BluRayDto>();
+            if (_bluRayDao.InsertBluRay(bluray).IsFaulted)
+            {
+                throw new InternalErrorException($"Erreur lors de l'insertion du film {bluray.Title}");
+            }
+            return bluray.Adapt<FilmDto>();
         }
 
         public void UpdateFilm(int id, FilmDto filmDto)
