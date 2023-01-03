@@ -42,7 +42,11 @@ namespace VideoTheque.Controllers
         [HttpPut("{id}")]
         public async Task<IResult> UpdateFilm([FromRoute] int id, [FromBody] FilmViewModel filmVm)
         {
-            _filmsBusiness.UpdateFilm(id, filmVm.Adapt<FilmDto>());
+            var toInsert = filmVm.Adapt<FilmDto>();
+            toInsert.FirstActor = new PersonneDto { FirstName = filmVm.FirstActor.Split(' ')[1], LastName = filmVm.FirstActor.Split(' ')[0] };
+            toInsert.Scenarist = new PersonneDto { FirstName = filmVm.Scenarist.Split(' ')[1], LastName = filmVm.Scenarist.Split(' ')[0] };
+            toInsert.Director = new PersonneDto { FirstName = filmVm.Director.Split(' ')[1], LastName = filmVm.Director.Split(' ')[0] };
+            _filmsBusiness.UpdateFilm(id, toInsert);
             return Results.NoContent();
         }
         
