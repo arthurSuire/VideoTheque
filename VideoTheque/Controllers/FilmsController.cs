@@ -36,7 +36,7 @@ namespace VideoTheque.Controllers
             }).ToList();
 
         [HttpGet("{id}")]
-        public FilmViewModel GetFilm([FromRoute] int id)
+        public Task<FilmViewModel> GetFilm([FromRoute] int id)
         {
             var config = new TypeAdapterConfig();
             config.NewConfig<FilmDto, FilmViewModel>()
@@ -50,10 +50,10 @@ namespace VideoTheque.Controllers
                 .Map(filmView => filmView.Titre, filmDto => filmDto.Title)
                 .Map(filmView => filmView.PrincipalActor, filmDto => filmDto.FirstActor);
 
-            var filmView = _filmsBusiness.GetFilm(id);
+            var filmDto = _filmsBusiness.GetFilm(id);
             var mapper = new Mapper(config);
-            var result = mapper.Map<FilmViewModel>(filmView);
-            return result;
+            var result = mapper.Map<FilmViewModel>(filmDto);
+            return Task.FromResult(result);
         }
     }
 }
