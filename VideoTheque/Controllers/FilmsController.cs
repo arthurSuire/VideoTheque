@@ -1,4 +1,5 @@
 using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using VideoTheque.Businesses.Films;
 using VideoTheque.DTOs;
@@ -35,9 +36,10 @@ namespace VideoTheque.Controllers
             }).ToList();
 
         [HttpGet("{id}")]
-        public void GetFilm([FromRoute] int id)
+        public FilmViewModel GetFilm([FromRoute] int id)
         {
-            TypeAdapterConfig<FilmDto, FilmViewModel>.NewConfig()
+            var config = new TypeAdapterConfig();
+            config.NewConfig<FilmDto, FilmViewModel>()
                 .Map(filmView => filmView.Id, filmDto => filmDto.Id)
                 .Map(filmView => filmView.RealFullName, filmDto => filmDto.Director)
                 .Map(filmView => filmView.ScenarFullName, filmDto => filmDto.Scenarist)
@@ -47,6 +49,11 @@ namespace VideoTheque.Controllers
                 .Map(filmView => filmView.Genre, filmDto => filmDto.Genre)
                 .Map(filmView => filmView.Titre, filmDto => filmDto.Title)
                 .Map(filmView => filmView.PrincipalActor, filmDto => filmDto.FirstActor);
+
+            var filmView = _filmsBusiness.GetFilm(id);
+            var mapper = new Mapper(config);
+            var result = mapper.Map<FilmViewModel>(filmView);
+            return result;
         }
     }
 }
