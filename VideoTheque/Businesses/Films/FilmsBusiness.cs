@@ -67,7 +67,7 @@ namespace VideoTheque.Businesses.Films
             bluray.IdScenarist = personnes.First(p => p.FirstName == filmDto.Scenarist.FirstName && p.LastName == filmDto.Scenarist.LastName).Id;
             bluray.IdFirstActor = personnes.First(p => p.FirstName == filmDto.FirstActor.FirstName && p.LastName == filmDto.FirstActor.LastName).Id;
             bluray.IdGenre = genres.First(g => g.Name == filmDto.Genre.Name).Id;
-            bluray.IdGenre = ageRatings.First(ag => ag.Name == filmDto.AgeRating.Name).Id;
+            bluray.IdAgeRating = ageRatings.First(ag => ag.Name == filmDto.AgeRating.Name).Id;
             if (_bluRayDao.InsertBluRay(bluray).IsFaulted)
             {
                 throw new InternalErrorException($"Erreur lors de l'insertion du film avec comme titre {bluray.Title}");
