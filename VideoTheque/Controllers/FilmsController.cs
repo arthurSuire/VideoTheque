@@ -38,5 +38,12 @@ namespace VideoTheque.Controllers
             var created = _filmsBusiness.InsertFilm(toInsert);
             return Results.Created($"/films/{created.Id}", created);
         }
+        
+        [HttpDelete("{id}")]
+        public async Task<IResult> DeleteFilm([FromRoute] int id)
+        {
+            _filmsBusiness.DeleteFilm(id);
+            return Results.Ok();
+        }
     }
 }

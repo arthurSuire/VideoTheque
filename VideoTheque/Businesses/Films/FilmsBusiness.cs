@@ -82,7 +82,10 @@ namespace VideoTheque.Businesses.Films
 
         public void DeleteFilm(int id)
         {
-            throw new NotImplementedException();
+            if (_bluRayDao.DeleteBluRay(id).IsFaulted)
+            {
+                throw new InternalErrorException($"Erreur lors de la suppression du film d'identifiant {id}");
+            }
         }
     }
 }
