@@ -1,6 +1,7 @@
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using VideoTheque.Businesses.Films;
+using VideoTheque.DTOs;
 using VideoTheque.ViewModels;
 
 namespace VideoTheque.Controllers
@@ -32,5 +33,20 @@ namespace VideoTheque.Controllers
                 RealFullName = c.Director.FullName,
                 ScenarFullName = c.Scenarist.FullName
             }).ToList();
+
+        [HttpGet("{id}")]
+        public void GetFilm([FromRoute] int id)
+        {
+            TypeAdapterConfig<FilmDto, FilmViewModel>.NewConfig()
+                .Map(filmView => filmView.Id, filmDto => filmDto.Id)
+                .Map(filmView => filmView.RealFullName, filmDto => filmDto.Director)
+                .Map(filmView => filmView.ScenarFullName, filmDto => filmDto.Scenarist)
+                .Map(filmView => filmView.Duree, filmDto => filmDto.Duration)
+                .Map(filmView => filmView.Support, filmDto => filmDto.Support)
+                .Map(filmView => filmView.AgeRating, filmDto => filmDto.AgeRating)
+                .Map(filmView => filmView.Genre, filmDto => filmDto.Genre)
+                .Map(filmView => filmView.Titre, filmDto => filmDto.Title)
+                .Map(filmView => filmView.PrincipalActor, filmDto => filmDto.FirstActor);
+        }
     }
 }

@@ -20,15 +20,12 @@ namespace VideoTheque.Businesses.Films
             _personnesRepository = personnesRepository;
             _ageRatingRepository = ageRatingRepository;
             _genresRepository = genresRepository;
-
-
         }
         
         public async Task<List<FilmDto>> GetFilms()
         {
             
             var blurays = await _bluRayDao.GetBluRays();
-            System.Console.WriteLine(blurays.Count);
             var films = new List<FilmDto>();
 
             foreach(var elts in blurays)
@@ -45,9 +42,17 @@ namespace VideoTheque.Businesses.Films
             return films;
         }
 
-        public FilmDto GetFilm(int id)
+        public async Task<FilmDto> GetFilm(int id)
         {
-            throw new NotImplementedException();
+            var bluray = await _bluRayDao.GetBluRay(id);
+            var film = new FilmDto(bluray);
+            film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
+            film.Director = _personnesRepository.GetPersonne(film.Director.Id).Result;
+            film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
+            film.Scenarist = _personnesRepository.GetPersonne(film.Scenarist.Id).Result;
+            film.AgeRating = _ageRatingRepository.GetAgeRating(film.AgeRating.Id).Result;
+            film.Genre = _genresRepository.GetGenre(film.Genre.Id).Result;
+            return film;
         }
 
         public FilmDto InsertFilm(FilmDto filmDto)

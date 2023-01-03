@@ -7,7 +7,6 @@ namespace VideoTheque.DTOs
     {
         public int Id { get; set; }
         public PersonneDto Director { get; set; }
-        
         public PersonneDto Scenarist { get; set; }
         public int Duration { get; set; }
         public string Support { get; set; }
