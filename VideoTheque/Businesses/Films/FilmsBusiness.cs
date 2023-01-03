@@ -64,7 +64,7 @@ namespace VideoTheque.Businesses.Films
             {
                 throw new InternalErrorException($"Erreur lors de l'insertion du film avec comme titre {bluray.Title}");
             }
-            return bluray.Adapt<FilmDto>();
+            return filmDto;
         }
 
         public void UpdateFilm(int id, FilmDto filmDto)

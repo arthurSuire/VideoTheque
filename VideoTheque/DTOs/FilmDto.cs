@@ -19,6 +19,7 @@ namespace VideoTheque.DTOs
         
         public int? IdOwner { get; set; }
 
+        public FilmDto(){}
         public FilmDto(BluRayDto bluRayDto)
         {
             this.Id = bluRayDto.Id;
