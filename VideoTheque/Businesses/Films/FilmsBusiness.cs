@@ -46,6 +46,7 @@ namespace VideoTheque.Businesses.Films
         {
             var bluray = await _bluRayDao.GetBluRay(id);
             var film = new FilmDto(bluray);
+            Console.WriteLine();
             film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
             film.Director = _personnesRepository.GetPersonne(film.Director.Id).Result;
             film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;

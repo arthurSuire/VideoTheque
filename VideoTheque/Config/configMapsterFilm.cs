@@ -4,21 +4,21 @@ using VideoTheque.ViewModels;
 
 namespace VideoTheque.Config
 {
-    public class configMapsterFilm
+    public static class configMapsterFilm
     {
-        public configMapsterFilm(IServiceCollection services)
+        public static void configMapsterFilm4(this IServiceCollection services)
         {
-            var config = new TypeAdapterConfig();
-            config.NewConfig<FilmDto, FilmViewModel>()
-                .Map(filmView => filmView.Id, filmDto => filmDto.Id)
-                .Map(filmView => filmView.Director, filmDto => filmDto.Director)
-                .Map(filmView => filmView.Scenarist, filmDto => filmDto.Scenarist)
-                .Map(filmView => filmView.Duration, filmDto => filmDto.Duration)
-                .Map(filmView => filmView.Support, filmDto => filmDto.Support)
-                .Map(filmView => filmView.AgeRating, filmDto => filmDto.AgeRating)
-                .Map(filmView => filmView.Genre, filmDto => filmDto.Genre)
-                .Map(filmView => filmView.Title, filmDto => filmDto.Title)
-                .Map(filmView => filmView.FirstActor, filmDto => filmDto.FirstActor);
+            TypeAdapterConfig<FilmDto, FilmViewModel>
+                .NewConfig()
+                .Map(dest => dest.Id, src => src.Id)
+                .Map(dest => dest.Director, src => src.Director.FullName)
+                .Map(dest => dest.Scenarist, src => src.Scenarist.FullName)
+                .Map(dest => dest.Duration, src => src.Duration)
+                .Map(dest => dest.Support, src => src.Support.ToString())
+                .Map(dest => dest.AgeRating, src => src.AgeRating.Name)
+                .Map(dest => dest.Genre, src => src.Genre.Name)
+                .Map(dest => dest.Title, src => src.Title)
+                .Map(dest => dest.FirstActor, src => src.FirstActor.FullName);
         }
     }
 }

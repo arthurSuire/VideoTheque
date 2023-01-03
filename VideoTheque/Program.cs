@@ -62,6 +62,8 @@ builder.Services.AddCors(option => option
         .AllowAnyHeader()
         .AllowCredentials()));
 
+builder.Services.configMapsterFilm4();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -71,7 +73,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Vid�oTh�que API V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "VidéoThèque API V1");
     });
 }
 
