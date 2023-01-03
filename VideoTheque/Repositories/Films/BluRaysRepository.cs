@@ -23,13 +23,13 @@ namespace VideoTheque.Repositories.Films
             return _db.SaveChangesAsync();
         }
         
-        public Task UpdateBluRay(int id, BluRayDto bluRayDto)
+        public Task UpdateBluRay(BluRayDto bluRayDto)
         {
-            var bluRayToUpdate = _db.BluRays.FindAsync(id).Result;
+            var bluRayToUpdate = _db.BluRays.FindAsync(bluRayDto.Id).Result;
 
             if (bluRayToUpdate is null)
             {
-                throw new KeyNotFoundException($"BluRay '{id}' non trouvé");
+                throw new KeyNotFoundException($"BluRay '{bluRayDto.Id}' non trouvé");
             }
             bluRayToUpdate.Title = bluRayDto.Title;
             bluRayToUpdate.Duration = bluRayDto.Duration;

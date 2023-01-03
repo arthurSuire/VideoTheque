@@ -10,7 +10,7 @@ namespace VideoTheque.Repositories.Films
 
         Task InsertBluRay(BluRayDto bluRay);
 
-        Task UpdateBluRay(int id, BluRayDto bluRay);
+        Task UpdateBluRay(BluRayDto bluRay);
 
         Task DeleteBluRay(int id);
     }

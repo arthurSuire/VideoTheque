@@ -43,9 +43,9 @@ namespace VideoTheque.Controllers
         public async Task<IResult> UpdateFilm([FromRoute] int id, [FromBody] FilmViewModel film)
         {
             var toInsert = film.Adapt<FilmDto>();
-            toInsert.FirstActor = new PersonneDto { FirstName = film.FirstActor.Split(' ')[0], LastName = film.FirstActor.Split(' ')[1] };
-            toInsert.Scenarist = new PersonneDto { FirstName = film.Scenarist.Split(' ')[0], LastName = film.Scenarist.Split(' ')[1] };
-            toInsert.Director = new PersonneDto { FirstName = film.Director.Split(' ')[0], LastName = film.Director.Split(' ')[1] };
+            toInsert.FirstActor = new PersonneDto { FirstName = film.FirstActor.Split(' ')[1], LastName = film.FirstActor.Split(' ')[0] };
+            toInsert.Scenarist = new PersonneDto { FirstName = film.Scenarist.Split(' ')[1], LastName = film.Scenarist.Split(' ')[0] };
+            toInsert.Director = new PersonneDto { FirstName = film.Director.Split(' ')[1], LastName = film.Director.Split(' ')[0] };
             _filmsBusiness.UpdateFilm(id, toInsert);
             return Results.NoContent();
         }
