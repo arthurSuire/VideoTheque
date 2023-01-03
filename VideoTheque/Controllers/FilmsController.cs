@@ -39,6 +39,13 @@ namespace VideoTheque.Controllers
             return Results.Created($"/films/{created.Id}", created);
         }
         
+        [HttpPut("{id}")]
+        public async Task<IResult> UpdateFilm([FromRoute] int id, [FromBody] FilmViewModel filmVm)
+        {
+            _filmsBusiness.UpdateFilm(id, filmVm.Adapt<FilmDto>());
+            return Results.NoContent();
+        }
+        
         [HttpDelete("{id}")]
         public async Task<IResult> DeleteFilm([FromRoute] int id)
         {
