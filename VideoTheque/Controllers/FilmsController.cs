@@ -25,35 +25,17 @@ namespace VideoTheque.Controllers
             new FilmViewModel
             {
                 Id = c.Id,
-                Duree = c.Duration,
+                Duration = c.Duration,
                 AgeRating = c.AgeRating.Name,
                 Genre = c.Genre.Name,
                 Support = c.Support.ToString(),
-                Titre = c.Title.ToString(),
-                PrincipalActor = c.FirstActor.FullName,
-                RealFullName = c.Director.FullName,
-                ScenarFullName = c.Scenarist.FullName
+                Title = c.Title.ToString(),
+                FirstActor = c.FirstActor.FullName,
+                Director = c.Director.FullName,
+                Scenarist = c.Scenarist.FullName
             }).ToList();
 
         [HttpGet("{id}")]
-        public Task<FilmViewModel> GetFilm([FromRoute] int id)
-        {
-            var config = new TypeAdapterConfig();
-            config.NewConfig<FilmDto, FilmViewModel>()
-                .Map(filmView => filmView.Id, filmDto => filmDto.Id)
-                .Map(filmView => filmView.RealFullName, filmDto => filmDto.Director)
-                .Map(filmView => filmView.ScenarFullName, filmDto => filmDto.Scenarist)
-                .Map(filmView => filmView.Duree, filmDto => filmDto.Duration)
-                .Map(filmView => filmView.Support, filmDto => filmDto.Support)
-                .Map(filmView => filmView.AgeRating, filmDto => filmDto.AgeRating)
-                .Map(filmView => filmView.Genre, filmDto => filmDto.Genre)
-                .Map(filmView => filmView.Titre, filmDto => filmDto.Title)
-                .Map(filmView => filmView.PrincipalActor, filmDto => filmDto.FirstActor);
-
-            var filmDto = _filmsBusiness.GetFilm(id);
-            var mapper = new Mapper(config);
-            var result = mapper.Map<FilmViewModel>(filmDto);
-            return Task.FromResult(result);
-        }
+        public async Task<FilmViewModel> GetFilm([FromRoute] int id) => _filmsBusiness.GetFilm(id).Adapt<FilmViewModel>();
     }
 }

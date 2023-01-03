@@ -6,6 +6,7 @@ using VideoTheque.Businesses.Genres;
 using VideoTheque.Businesses.Hosts;
 using VideoTheque.Businesses.Personnes;
 using VideoTheque.Businesses.Support;
+using VideoTheque.Config;
 using VideoTheque.Context;
 using VideoTheque.Core;
 using VideoTheque.Repositories.AgeRating;

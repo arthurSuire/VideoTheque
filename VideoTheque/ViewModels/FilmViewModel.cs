@@ -10,15 +10,15 @@ namespace VideoTheque.ViewModels
 
         [JsonPropertyName("realisateur")]
         [Required]
-        public string RealFullName { get; set; }
+        public string Director { get; set; }
         
         [JsonPropertyName("scenariste")]
         [Required]
-        public string ScenarFullName { get; set; }
+        public string Scenarist { get; set; }
         
         [JsonPropertyName("duree")]
         [Required]
-        public int Duree { get; set; }
+        public int Duration { get; set; }
         
         [JsonPropertyName("support")]
         [Required]
@@ -34,10 +34,10 @@ namespace VideoTheque.ViewModels
         
         [JsonPropertyName("titre")]
         [Required]
-        public string Titre { get; set; }
+        public string Title { get; set; }
         
         [JsonPropertyName("acteur-principal")]
         [Required]
-        public string PrincipalActor { get; set; }
+        public string FirstActor { get; set; }
     }
 }
