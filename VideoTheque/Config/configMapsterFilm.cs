@@ -25,14 +25,14 @@ namespace VideoTheque.Config
             TypeAdapterConfig<FilmViewModel, FilmDto>
                 .NewConfig()
                 //.Map(dest => dest.Id, src => src.Id)
-                .Map(dest => dest.Director.Id, src => src.Director)
-                .Map(dest => dest.Scenarist.Id, src => src.Scenarist)
+                //.Map(dest => dest.Director.LastName, src => src.Director.Split(' ')[0])
+                //.Map(dest => dest.Scenarist.Id, src => src.Scenarist)
                 .Map(dest => dest.Duration, src => src.Duration)
                 //.Map(dest => dest.Support, src => src.Support)
-                .Map(dest => dest.AgeRating.Id, src => src.AgeRating)
-                .Map(dest => dest.Genre.Id, src => src.Genre)
+                .Map(dest => dest.AgeRating.Name, src => src.AgeRating)
+                .Map(dest => dest.Genre.Name, src => src.Genre);
                 //.Map(dest => dest.Title, src => src.Title)
-                .Map(dest => dest.FirstActor.Id, src => src.FirstActor);
+                //.Map(dest => dest.FirstActor.Id, src => src.FirstActor);
             
             //FilmDto vers BlurayDto
             TypeAdapterConfig<FilmDto, BluRayDto>

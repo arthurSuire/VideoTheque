@@ -31,7 +31,11 @@ namespace VideoTheque.Controllers
         [HttpPost]
         public async Task<IResult> InsertFilm([FromBody] FilmViewModel filmVm)
         {
-            var created = _filmsBusiness.InsertFilm(filmVm.Adapt<FilmDto>());
+            var toInsert = filmVm.Adapt<FilmDto>();
+            toInsert.FirstActor = new PersonneDto { FirstName = filmVm.FirstActor.Split(' ')[0], LastName = filmVm.FirstActor.Split(' ')[1] };
+            toInsert.Scenarist = new PersonneDto { FirstName = filmVm.Scenarist.Split(' ')[0], LastName = filmVm.Scenarist.Split(' ')[1] };
+            toInsert.Director = new PersonneDto { FirstName = filmVm.Director.Split(' ')[0], LastName = filmVm.Director.Split(' ')[1] };
+            var created = _filmsBusiness.InsertFilm(toInsert);
             return Results.Created($"/films/{created.Id}", created);
         }
     }
