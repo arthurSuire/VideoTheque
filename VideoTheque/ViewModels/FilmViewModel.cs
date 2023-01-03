@@ -18,7 +18,7 @@ namespace VideoTheque.ViewModels
         
         [JsonPropertyName("duree")]
         [Required]
-        public int Duration { get; set; }
+        public string Duration { get; set; }
         
         [JsonPropertyName("support")]
         [Required]

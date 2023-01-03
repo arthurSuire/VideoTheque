@@ -62,7 +62,7 @@ builder.Services.AddCors(option => option
         .AllowAnyHeader()
         .AllowCredentials()));
 
-builder.Services.configMapsterFilm4();
+builder.Services.configMapsterFilmRegister();
 
 var app = builder.Build();
 

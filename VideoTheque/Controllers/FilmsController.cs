@@ -21,21 +21,11 @@ namespace VideoTheque.Controllers
         }
 
         [HttpGet]
-        public async Task<List<FilmViewModel>> GetFilms() => (await _filmsBusiness.GetFilms()).Select(c =>
-            new FilmViewModel
-            {
-                Id = c.Id,
-                Duration = c.Duration,
-                AgeRating = c.AgeRating.Name,
-                Genre = c.Genre.Name,
-                Support = c.Support.ToString(),
-                Title = c.Title.ToString(),
-                FirstActor = c.FirstActor.FullName,
-                Director = c.Director.FullName,
-                Scenarist = c.Scenarist.FullName
-            }).ToList();
+        public async Task<List<FilmViewModel>> GetFilms() =>
+            (await _filmsBusiness.GetFilms()).Adapt<List<FilmViewModel>>();
 
         [HttpGet("{id}")]
-        public async Task<FilmViewModel> GetFilm([FromRoute] int id) => _filmsBusiness.GetFilm(id).Adapt<FilmViewModel>();
-    }
+        public async Task<FilmViewModel> GetFilm([FromRoute] int id) => 
+            (await _filmsBusiness.GetFilm(id)).Adapt<FilmViewModel>();
+        }
 }

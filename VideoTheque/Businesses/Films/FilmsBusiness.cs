@@ -24,7 +24,6 @@ namespace VideoTheque.Businesses.Films
         
         public async Task<List<FilmDto>> GetFilms()
         {
-            
             var blurays = await _bluRayDao.GetBluRays();
             var films = new List<FilmDto>();
 
@@ -46,7 +45,7 @@ namespace VideoTheque.Businesses.Films
         {
             var bluray = await _bluRayDao.GetBluRay(id);
             var film = new FilmDto(bluray);
-            Console.WriteLine();
+            Console.WriteLine("Je passe dans le bussinnes");
             film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
             film.Director = _personnesRepository.GetPersonne(film.Director.Id).Result;
             film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
