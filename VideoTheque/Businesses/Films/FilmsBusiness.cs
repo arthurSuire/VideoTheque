@@ -60,6 +60,9 @@ namespace VideoTheque.Businesses.Films
         public FilmDto InsertFilm(FilmDto filmDto)
         {
             var bluray = filmDto.Adapt<BluRayDto>();
+            bluray.IdDirector = filmDto.Director.Id;
+            bluray.IdScenarist = filmDto.Scenarist.Id;
+            bluray.IdFirstActor = filmDto.FirstActor.Id;
             if (_bluRayDao.InsertBluRay(bluray).IsFaulted)
             {
                 throw new InternalErrorException($"Erreur lors de l'insertion du film avec comme titre {bluray.Title}");

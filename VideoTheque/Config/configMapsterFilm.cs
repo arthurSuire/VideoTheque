@@ -24,7 +24,6 @@ namespace VideoTheque.Config
                 .Ignore(dest => dest.Scenarist)
                 .Ignore(dest => dest.Director)
                 .Ignore(dest => dest.FirstActor)
-                .Map(dest => dest.Duration, src => src.Duration)
                 .Map(dest => dest.AgeRating, src => new AgeRatingDto{Name = src.AgeRating})
                 .Map(dest => dest.Genre, src => new GenreDto{Name = src.Genre});
         }
