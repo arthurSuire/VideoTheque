@@ -57,6 +57,11 @@ namespace VideoTheque.Businesses.Emprunts
         public async Task<FilmDto> InsertEmprunt(int id)
         {
             var bluray = (await _bluRaysRepository.GetBluRay(id));
+            bluray.IsAvailable = false;
+            if (_bluRayDao.InsertBluRay(bluray).IsFaulted)
+            {
+                throw new InternalErrorException($"Erreur lors de l'insertion du film avec comme titre {bluray.Title}");
+            }
             var film = new FilmDto(bluray);
             film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
             film.Director = _personnesRepository.GetPersonne(film.Director.Id).Result;
@@ -64,7 +69,6 @@ namespace VideoTheque.Businesses.Emprunts
             film.Scenarist = _personnesRepository.GetPersonne(film.Scenarist.Id).Result;
             film.AgeRating = _ageRatingRepository.GetAgeRating(film.AgeRating.Id).Result;
             film.Genre = _genresRepository.GetGenre(film.Genre.Id).Result;
-            film.IsAvailable = false;
             return film;
         }
 
