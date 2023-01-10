@@ -31,8 +31,10 @@ namespace VideoTheque.Controllers
             {
                 return _filmsBusiness.GetFilms().Adapt<List<FilmViewModel>>();
             }
-
-            return null;
+            else
+            {
+                return null;
+            }
         }
 
         [HttpGet("{id}")]
