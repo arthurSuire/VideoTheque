@@ -72,23 +72,23 @@ namespace VideoTheque.Businesses.Emprunts
             return film;
         }
 
-        public async Task<FilmDto> DeleteEmprunt(string name)
+        public async void DeleteEmprunt(string name)
         {
             var blurays = await _bluRayDao.GetBluRays();
-            var filmARetourner = new FilmDto();
 
             foreach (var elts in blurays)
             {
-                if(elts.Title == name)
+                if (elts.Title == name)
                 {
-                    var film = new FilmDto(elts);
-                    film.IsAvailable = true;
-                    film.IdOwner = null;
-                    filmARetourner = film;
+                    elts.IsAvailable = true;
+                    if (_bluRayDao.UpdateBluRay(elts).IsFaulted)
+                    {
+                        throw new InternalErrorException(
+                            $"Erreur lors de l'insertion du film avec comme titre {elts.Title}");
+                    }
+                    break;
                 }
             }
-
-            return filmARetourner;
         }
     }
 }
