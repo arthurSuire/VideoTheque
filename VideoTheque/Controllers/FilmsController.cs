@@ -23,10 +23,18 @@ namespace VideoTheque.Controllers
         [HttpGet]
         public async Task<List<FilmViewModel>> GetFilms() =>
             (await _filmsBusiness.GetFilms()).Adapt<List<FilmViewModel>>();
+        
+        [HttpGet("{idPartenaire}")]
+        public async Task<List<FilmViewModel>> GetFilmsPartenaire(int idPartenaire) =>
+            (await _filmsBusiness.GetFilmsPartenaire(idPartenaire)).Adapt<List<FilmViewModel>>();
 
         [HttpGet("{id}")]
         public async Task<FilmViewModel> GetFilm([FromRoute] int id) => 
             (await _filmsBusiness.GetFilm(id)).Adapt<FilmViewModel>();
+        
+        [HttpGet("{idPartenaire, idFilmPartenaire}")]
+        public async Task<List<FilmViewModel>> GetFilmPartenaire(int idPartenaire, int idFilmPartenaire) =>
+            (await _filmsBusiness.GetFilmPartenaire(idPartenaire, idFilmPartenaire)).Adapt<List<FilmViewModel>>();
         
         [HttpPost]
         public async Task<IResult> InsertFilm([FromBody] FilmViewModel filmVm)

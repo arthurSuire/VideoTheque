@@ -31,6 +31,8 @@ namespace VideoTheque.DTOs
             this.Genre = new GenreDto { Id = bluRayDto.IdGenre };
             this.Title = bluRayDto.Title;
             this.FirstActor = new PersonneDto { Id = bluRayDto.IdFirstActor };
+            this.IsAvailable = true;
+            this.IdOwner = bluRayDto.IdOwner;
         }
     }
 }
