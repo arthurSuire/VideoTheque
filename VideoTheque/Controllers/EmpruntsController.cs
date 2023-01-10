@@ -22,7 +22,7 @@ namespace VideoTheque.Controllers
         [HttpGet]
         public async Task<List<FilmViewModel>> GetEmprunts() => (await _empruntsBusiness.GetEmprunts()).Adapt<List<FilmViewModel>>();
 
-        [HttpPost]
+        [HttpPost("{idFilm}")]
         public async Task<IResult> InsertEmprunt([FromRoute] int idFilm)
         {
             var created = _empruntsBusiness.InsertEmprunt(idFilm);
