@@ -29,7 +29,7 @@ namespace VideoTheque.Controllers
             return Results.Created($"/emprunts/{created.Id}", created);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{name}")]
         public async Task<IResult> DeleteEmprunt([FromRoute] string name)
         {
             _empruntsBusiness.DeleteEmprunt(name);
