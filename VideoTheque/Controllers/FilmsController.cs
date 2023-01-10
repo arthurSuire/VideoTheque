@@ -31,10 +31,25 @@ namespace VideoTheque.Controllers
             {
                 return (await _filmsBusiness.GetFilms()).Adapt<List<FilmViewModel>>();
             }
-            else
+
+            return null;
+            /*HostDto host = _hostsBusiness.GetHost(partenaire.Value);
+
+            string url = host.Url + "/emprunts";
+        
+            try
             {
-                return null;
+                using HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(responseBody);
             }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine("\nException Caught!");
+                Console.WriteLine("Message :{0} ", e.Message);
+            }
+            return null;*/
         }
 
         [HttpGet("{id}")]
