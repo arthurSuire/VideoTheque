@@ -56,10 +56,16 @@ namespace VideoTheque.Businesses.Emprunts
 
         public async Task<FilmDto> InsertEmprunt(int id)
         {
-            var film = (await _bluRaysRepository.GetBluRay(id));
-            var bluray = film.Adapt<FilmDto>();
-            bluray.IsAvailable = false;
-            return bluray;
+            var bluray = (await _bluRaysRepository.GetBluRay(id));
+            var film = new FilmDto(bluray);
+            film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
+            film.Director = _personnesRepository.GetPersonne(film.Director.Id).Result;
+            film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
+            film.Scenarist = _personnesRepository.GetPersonne(film.Scenarist.Id).Result;
+            film.AgeRating = _ageRatingRepository.GetAgeRating(film.AgeRating.Id).Result;
+            film.Genre = _genresRepository.GetGenre(film.Genre.Id).Result;
+            film.IsAvailable = false;
+            return film;
         }
 
         public async Task<FilmDto> DeleteEmprunt(string name)
