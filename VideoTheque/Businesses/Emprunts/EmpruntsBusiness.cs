@@ -58,7 +58,7 @@ namespace VideoTheque.Businesses.Emprunts
         {
             var bluray = (await _bluRaysRepository.GetBluRay(id));
             bluray.IsAvailable = false;
-            if (_bluRayDao.InsertBluRay(bluray).IsFaulted)
+            if (_bluRayDao.UpdateBluRay(bluray).IsFaulted)
             {
                 throw new InternalErrorException($"Erreur lors de l'insertion du film avec comme titre {bluray.Title}");
             }
