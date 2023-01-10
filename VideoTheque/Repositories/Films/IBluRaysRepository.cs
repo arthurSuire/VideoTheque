@@ -13,5 +13,7 @@ namespace VideoTheque.Repositories.Films
         Task UpdateBluRay(BluRayDto bluRay);
 
         Task DeleteBluRay(int id);
+
+        Task DeleteBluRayName(string name);
     }
 }

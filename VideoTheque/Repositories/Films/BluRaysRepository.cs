@@ -56,5 +56,17 @@ namespace VideoTheque.Repositories.Films
             _db.BluRays.Remove(bluRayToDelete);
             return _db.SaveChangesAsync();
         }
+        
+        public Task DeleteBluRayName(string name)
+        {
+            var bluRayToDelete = _db.BluRays.FindAsync(name).Result;
+
+            if (bluRayToDelete is null)
+            {
+                throw new KeyNotFoundException($"BluRay '{name}' non trouvé");
+            }
+            _db.BluRays.Remove(bluRayToDelete);
+            return _db.SaveChangesAsync();
+        }
     }
 }
