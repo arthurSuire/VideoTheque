@@ -23,13 +23,13 @@ namespace VideoTheque.Businesses.Films
             _ageRatingRepository = ageRatingRepository;
             _genresRepository = genresRepository;
         }
-        
+
         public async Task<List<FilmDto>> GetFilms()
         {
             var blurays = await _bluRayDao.GetBluRays();
             var films = new List<FilmDto>();
 
-            foreach(var elts in blurays)
+            foreach (var elts in blurays)
             {
                 var film = new FilmDto(elts);
                 film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
@@ -40,29 +40,7 @@ namespace VideoTheque.Businesses.Films
                 film.Genre = _genresRepository.GetGenre(film.Genre.Id).Result;
                 films.Add(film);
             }
-            return films;
-        }
 
-        public async Task<List<FilmDto>> GetFilmsPartenaire(int idPartenaire)
-        {
-            var blurays = await _bluRayDao.GetBluRays();
-            var films = new List<FilmDto>();
-            foreach (var elts in blurays)
-            {
-                if (elts.IdOwner == idPartenaire)
-                {
-                    var film = new FilmDto(elts);
-                    film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
-                    film.Director = _personnesRepository.GetPersonne(film.Director.Id).Result;
-                    film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
-                    film.Scenarist = _personnesRepository.GetPersonne(film.Scenarist.Id).Result;
-                    film.AgeRating = _ageRatingRepository.GetAgeRating(film.AgeRating.Id).Result;
-                    film.Genre = _genresRepository.GetGenre(film.Genre.Id).Result;
-                    film.IdOwner = elts.IdOwner;
-                    film.IsAvailable = elts.IsAvailable;
-                    films.Add(film);
-                }
-            }
             return films;
         }
 
@@ -76,24 +54,6 @@ namespace VideoTheque.Businesses.Films
             film.Scenarist = _personnesRepository.GetPersonne(film.Scenarist.Id).Result;
             film.AgeRating = _ageRatingRepository.GetAgeRating(film.AgeRating.Id).Result;
             film.Genre = _genresRepository.GetGenre(film.Genre.Id).Result;
-            return film;
-        }
-        
-        public async Task<FilmDto> GetFilmPartenaire(int idPartenaire, int idFilmPartenaire)
-        {
-            var bluray = await _bluRayDao.GetBluRay(idFilmPartenaire);
-            var film = new FilmDto(bluray);
-            if (bluray.IdOwner == idPartenaire)
-            {
-                film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
-                film.Director = _personnesRepository.GetPersonne(film.Director.Id).Result;
-                film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
-                film.Scenarist = _personnesRepository.GetPersonne(film.Scenarist.Id).Result;
-                film.AgeRating = _ageRatingRepository.GetAgeRating(film.AgeRating.Id).Result;
-                film.Genre = _genresRepository.GetGenre(film.Genre.Id).Result;
-                film.IsAvailable = bluray.IsAvailable;
-                film.IdOwner = bluray.IdOwner;
-            }
             return film;
         }
 

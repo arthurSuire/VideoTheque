@@ -2,6 +2,7 @@ using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using VideoTheque.Businesses.Films;
+using VideoTheque.Businesses.Hosts;
 using VideoTheque.DTOs;
 using VideoTheque.ViewModels;
 
@@ -12,30 +13,48 @@ namespace VideoTheque.Controllers
     public class FilmsController
     {
         private readonly IFilmsBusiness _filmsBusiness;
+        private readonly IHostsBusiness _hostsBusiness;
         protected readonly ILogger<FilmsController> _logger;
+        private HttpClient client = new HttpClient();
 
-        public FilmsController(ILogger<FilmsController> logger, IFilmsBusiness filmsBusiness)
+        public FilmsController(ILogger<FilmsController> logger, IFilmsBusiness filmsBusiness, IHostsBusiness hostsBusiness)
         {
             _logger = logger;
             _filmsBusiness = filmsBusiness;
+            _hostsBusiness = hostsBusiness;
         }
 
         [HttpGet]
-        public async Task<List<FilmViewModel>> GetFilms() =>
-            (await _filmsBusiness.GetFilms()).Adapt<List<FilmViewModel>>();
-        
-        [HttpGet("{idPartenaire}")]
-        public async Task<List<FilmViewModel>> GetFilmsPartenaire(int idPartenaire) =>
-            (await _filmsBusiness.GetFilmsPartenaire(idPartenaire)).Adapt<List<FilmViewModel>>();
+        public async Task<List<FilmViewModel>> GetFilms([FromQuery] int? partenaire) 
+        { 
+            if(partenaire == null)
+            {
+                return _filmsBusiness.GetFilms().Adapt<List<FilmViewModel>>();
+            }
+
+            HostDto host = _hostsBusiness.GetHost(partenaire.Value);
+
+            string url = host.Url + "/emprunts";
+            
+            try
+            {
+                using HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(responseBody);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine("\nException Caught!");
+                Console.WriteLine("Message :{0} ", e.Message);
+            }
+            return null;
+        }
 
         [HttpGet("{id}")]
         public async Task<FilmViewModel> GetFilm([FromRoute] int id) => 
             (await _filmsBusiness.GetFilm(id)).Adapt<FilmViewModel>();
-        
-        [HttpGet("{idPartenaire, idFilmPartenaire}")]
-        public async Task<List<FilmViewModel>> GetFilmPartenaire(int idPartenaire, int idFilmPartenaire) =>
-            (await _filmsBusiness.GetFilmPartenaire(idPartenaire, idFilmPartenaire)).Adapt<List<FilmViewModel>>();
-        
+
         [HttpPost]
         public async Task<IResult> InsertFilm([FromBody] FilmViewModel filmVm)
         {

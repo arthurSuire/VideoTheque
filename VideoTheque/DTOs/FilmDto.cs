@@ -33,6 +33,6 @@ namespace VideoTheque.DTOs
             this.FirstActor = new PersonneDto { Id = bluRayDto.IdFirstActor };
             this.IsAvailable = true;
             this.IdOwner = bluRayDto.IdOwner;
-        }
+        }                                                                                       
     }
 }
