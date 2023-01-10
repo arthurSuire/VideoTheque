@@ -37,7 +37,7 @@ namespace VideoTheque.Businesses.Emprunts
 
             foreach (var elts in blurays)
             {
-                if (elts.IsAvailable == true)
+                if(elts is {IsAvailable:true, IdOwner:null})
                 {
                     var film = new FilmDto(elts);
                     film.FirstActor = _personnesRepository.GetPersonne(film.FirstActor.Id).Result;
@@ -58,20 +58,27 @@ namespace VideoTheque.Businesses.Emprunts
         {
             var film = (await _bluRaysRepository.GetBluRay(id));
             var bluray = film.Adapt<FilmDto>();
-            if (_bluRayDao.InsertBluRay(film).IsFaulted)
-            {
-                throw new InternalErrorException($"Erreur lors de l'insertion du film avec comme titre {film.Title}");
-            }
-
+            bluray.IsAvailable = false;
             return bluray;
         }
 
-        public void DeleteEmprunt(string name)
+        public async Task<FilmDto> DeleteEmprunt(string name)
         {
-            if (_bluRayDao.DeleteBluRayName(name).IsFaulted)
+            var blurays = await _bluRayDao.GetBluRays();
+            var filmARetourner = new FilmDto();
+
+            foreach (var elts in blurays)
             {
-                throw new InternalErrorException($"Erreur lors de la suppression du film d'identifiant {name}");
+                if(elts.Title == name)
+                {
+                    var film = new FilmDto(elts);
+                    film.IsAvailable = true;
+                    film.IdOwner = null;
+                    filmARetourner = film;
+                }
             }
+
+            return filmARetourner;
         }
     }
 }

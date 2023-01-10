@@ -9,6 +9,6 @@ namespace VideoTheque.Businesses.Emprunts
 
         Task<FilmDto> InsertEmprunt(int id);
 
-        void DeleteEmprunt(string name); 
+        Task<FilmDto> DeleteEmprunt(string name); 
     }                                                                                                                       
 }
