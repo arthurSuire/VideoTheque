@@ -1,4 +1,6 @@
+using System.Text.Json;
 using Mapster;
+using VideoTheque.Businesses.Hosts;
 using VideoTheque.Core;
 using VideoTheque.DTOs;
 using VideoTheque.Repositories.AgeRating;
@@ -14,14 +16,17 @@ namespace VideoTheque.Businesses.Films
         private readonly IPersonnesRepository _personnesRepository;
         private readonly IAgeRatingRepository _ageRatingRepository;
         private readonly IGenresRepository _genresRepository;
-        
+        private readonly IHostsBusiness _hostsBusiness;
+        private HttpClient client = new HttpClient();
+
         public FilmsBusiness(IBluRaysRepository bluRayRepository, IPersonnesRepository personnesRepository,
-            IAgeRatingRepository ageRatingRepository, IGenresRepository genresRepository)
+            IAgeRatingRepository ageRatingRepository, IGenresRepository genresRepository, IHostsBusiness hostsBusiness)
         {
             _bluRayDao = bluRayRepository;
             _personnesRepository = personnesRepository;
             _ageRatingRepository = ageRatingRepository;
             _genresRepository = genresRepository;
+            _hostsBusiness = hostsBusiness;
         }
 
         public async Task<List<FilmDto>> GetFilms()
@@ -94,11 +99,36 @@ namespace VideoTheque.Businesses.Films
             }
         }
 
-        public void DeleteFilm(int id)
+        public async void DeleteFilm(int id)
         {
-            if (_bluRayDao.DeleteBluRay(id).IsFaulted)
+            var bluray = await _bluRayDao.GetBluRay(id);
+            var film = new FilmDto(bluray);
+            if (bluray.IdOwner is null && bluray.IsAvailable == true)
             {
-                throw new InternalErrorException($"Erreur lors de la suppression du film d'identifiant {id}");
+                if (_bluRayDao.DeleteBluRay(id).IsFaulted)
+                {
+                    throw new InternalErrorException($"Erreur lors de la suppression du film d'identifiant {id}");
+                }
+            }
+            else
+            {
+                HostDto host = _hostsBusiness.GetHost(bluray.IdOwner.Value);
+                string url = host.Url + "/emprunts/"+bluray.Title;
+                try
+                {
+                    using HttpResponseMessage response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    FilmDto jsonToFilmDto = JsonSerializer.Deserialize<FilmDto>(responseBody);
+                    if (_bluRayDao.DeleteBluRay(id).IsFaulted)
+                    {
+                        throw new InternalErrorException($"Erreur lors de la suppression du film d'identifiant {id}");
+                    }
+                }
+                catch (HttpRequestException e)
+                {
+                    throw new InternalErrorException(e.Message);
+                } 
             }
         }
     }
