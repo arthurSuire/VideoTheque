@@ -29,7 +29,7 @@ namespace VideoTheque.Controllers
         { 
             if(partenaire == null)
             {
-                return _filmsBusiness.GetFilms().Adapt<List<FilmViewModel>>();
+                return (await _filmsBusiness.GetFilms()).Adapt<List<FilmViewModel>>();
             }
             else
             {
